@@ -16,18 +16,29 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/put/{no}', function () {
-    //$name = request('name');
-    return view('put/{no}');
+Route::get('/update/{id}', function ($id) {
+    return view('update', array('id'=>$id));
 });
-
+// Route::get('/delete/{id}', function ($id) {
+//     return view('delete', array('id'=>$id));
+// });
+Route::get('/LoginPage', function () {
+    return view('LoginPage');
+});
+Route::get('/RegisterPage', function () {
+    return view('register');
+});
+Route::post('/loginController', 'Todocontroller@login');
+Route::post('/registeredController', 'Todocontroller@register');
+// Route::get('/LoginPage', 'Todocontroller@login')->name('LoginPage');
 //Route::get('/welcome/{id}', 'db_test@db_test');
-// Route::middleware('auth')->group(function () {
-    Route::get('/todolist', 'Todocontroller@readTable');
+Route::get('/todolist', 'Todocontroller@readTable');
+Route::middleware('tokenAuth')->group(function () {
     Route::put("/update", 'Todocontroller@update');
     Route::post('/create', 'Todocontroller@create');
     Route::delete('/delete', 'Todocontroller@delete');
-// });
+    Route::put('/complete', 'Todocontroller@complete');
+});
 
 // Route::get('/', function () {
 //     return 'Hello World';

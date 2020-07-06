@@ -1,10 +1,13 @@
-
+@extends('layouts.app')
+@section('content')
 <html>
 <head>
   <meta http-http-equiv="Connect-type" content="text/html" ; charset="utf-8" />
 <title>laravel todolist</title>
 </head>
 <body>
+    <a href=/LoginPage>登入</a>
+    <a href=/RegisterPage>註冊</a>
         <form action="{{ url("/create") }}" method="post" >
         {{ csrf_field() }}
 		<input type = "text" name="item" placeholder="輸入項目">
@@ -15,6 +18,7 @@
 		</form>
 
 <form action=" " method="get" >
+    {{ csrf_field() }}
 <table  width= "700" border="1" >
     @foreach ($data as $key => $value)
             <tr>
@@ -28,29 +32,43 @@
  <input type="submit" value="修改" name="update">
  <input type="submit" value="刪除"  name="delete">
  <input type="submit" value="已完成/未完成"  name="complete">
-
 </table>
 </form>
+
+@if (isset($_GET['delete']))
+<form id="form1" action="{{ url("/delete") }}" method="post" >
+{{ csrf_field() }}
+<input type = "hidden" name="id" value= "{{$_GET['radio']}}">
+@method('DELETE')
+</form>
+<script>
+form1.submit();
+</script>
+@endif
+
+@if (isset($_GET['complete']))
+<form id="form2" action="{{ url("/complete") }}" method="post" >
+{{ csrf_field() }}
+ @method('PUT')
+<input type = "hidden" name="id" value= "{{$_GET['radio']}}">
+</form>
+<script>
+form2.submit();
+</script>
+@endif
+
+@if(session('success'))
+   <h1>{{session('success')}}</h1>
+@endif
+
 </body>
 </html>
 <?php
 if (isset($_GET['update']) == true && isset($_GET['radio']) == true) {
-    // echo "hello";
     if ($_GET['update'] == '修改') {
-        // echo "hello";
         $no = $_GET['radio'];
-        header("Location:put");
-        // return redirect("put/{$_GET['radio']}");
+        return redirect()->to("/update/$no")->send();
     }
 }
-if (isset($_GET['delete']) == true && isset($_GET['radio'])) {
-    if ($_GET['delete'] == '刪除') {
-        return redirect("delete/{$_GET['radio']}");
-    }
-}
-        //header("Location:delete.php?radio=".$_GET['radio']."");
-
-    // if ($_GET['complete'] == '已完成/未完成') {
-    //     header("Location:complete.php?radio=".$_GET['radio']."");
-    // }
-            ?>
+?>
+@endsection
