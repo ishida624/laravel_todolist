@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-//use Illuminate\Support\Facades\Cookie;
+// use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Auth;
 use App\T1;
 use App\Admin;
@@ -79,7 +79,7 @@ class Todocontroller extends Controller
                     $token = Str::random(15);
                     Admin::where('admin', $value['admin'])->update(['remember_token' => $token]);
                     return redirect('todolist')->withcookie('userToken', $token)->with('success', 'Login successfully');
-                // return redirect()->back()->with('success', 'Register successflly');
+                // return redirect('todolist')->with('success', 'Login successfully')->with('userToken', $token);
                 } else {
                     return '密碼錯誤';
                 }

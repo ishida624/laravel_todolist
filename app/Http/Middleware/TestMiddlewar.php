@@ -26,34 +26,30 @@ class TestMiddlewar
         // return $response;
         //$token = $request->input('_token');
         $cookie = $request->cookie('userToken');
+        // $token = $request ->input('userToken');
         // dd($cookie);
         // $user = Auth::user()->name;
-        $data = Admin::select('remember_token')->get();
-        // dd($data[1]->remember_token);
-        foreach ($data as $value) {
-            if ($value->remember_token == $cookie) {
-                // $tokenAuth = 1;
-                // echo  $tokenAuth;
+        // $data = Admin::select('remember_token')->get();
+        $data = Admin::where('remember_token', "=", $cookie)->get();
+        // dd($data[0]->remember_token);
+        foreach ($data as  $value) {
+            if (isset($value->remember_token)) {
                 return $next($request);
-            // return 'hello';
+            } else {
+                return redirect('LoginPage');
             }
-            // abort(403);
-            else {
-                // echo "hello";
-                // return route('LoginPage');
-                $tokenAuth = 0;
-                // return redirect('LoginPage');
-            }
-            // return 'world';
         }
-        // dd($tokenAuth);
-        if ($tokenAuth == 0) {
-            return redirect('LoginPage');
-        }
-        // if ($token == $remember_token) {
-        //     return $next($request);
-        // } else {
-        //     return response("token false", 405);
+        // foreach ($data as $value) {
+        //     // echo "$value";
+        //     if ($value->remember_token == $cookie) {
+        //         // echo "Hello";
+        //         return $next($request);
+        //     } else {
+        //         $tokenAuth = 0;
+        //     }
+        // }
+        // if ($tokenAuth == 0) {
+        //     return redirect('LoginPage');
         // }
     }
 }
