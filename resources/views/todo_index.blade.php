@@ -6,8 +6,8 @@
 <title>laravel todolist</title>
 </head>
 <body>
-    <a href=/LoginPage>登入</a>
-    <a href=/RegisterPage>註冊</a>
+    <!-- <a href=/LoginPage>登入</a>
+    <a href=/RegisterPage>註冊</a> -->
         <form action="{{ url("/create") }}" method="post" >
         {{ csrf_field() }}
 		<input type = "text" name="item" placeholder="輸入項目">

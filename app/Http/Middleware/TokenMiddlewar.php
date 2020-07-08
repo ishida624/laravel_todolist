@@ -7,7 +7,7 @@ use App\User;
 use App\Admin;
 use Illuminate\Support\Facades\Auth;
 
-class TestMiddlewar
+class TokenMiddlewar
 {
     /**
      * Handle an incoming request.
@@ -25,18 +25,21 @@ class TestMiddlewar
         // $response->cookie('visited-our-site', true);
         // return $response;
         //$token = $request->input('_token');
-        $cookie = $request->cookie('userToken');
-        // $token = $request ->input('userToken');
-        // dd($cookie);
+        // $cookie = $request->cookie('userToken');
+        $token = $request->input('userToken');
+        // dd($token);
         // $user = Auth::user()->name;
         // $data = Admin::select('remember_token')->get();
-        $data = Admin::where('remember_token', "=", $cookie)->get();
-        // dd($data[0]->remember_token);
+        $data = Admin::where('remember_token', "=", $token)->get();
+        // dd($data);
         foreach ($data as  $value) {
             if (isset($value->remember_token)) {
+                // dd('hello');
                 return $next($request);
             } else {
-                return redirect('LoginPage');
+                // return 'token false';
+                // return redirect('/todolist');
+                return response('token false', 403);
             }
         }
         // foreach ($data as $value) {
