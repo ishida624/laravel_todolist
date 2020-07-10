@@ -16,7 +16,8 @@ class PostController extends Controller
     public function index()
     {
         $index = T1::all();
-        return $index;
+        // return $index;
+        return response($index, 200);
     }
 
     /**
@@ -27,9 +28,13 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $item = $request->input('item');
+        $item = $request->item;
+        if (!$item) {
+            return response()->json(['message' =>'bad request' , 'reason' => 'item can not null' ], 400);
+        }
         $store = T1::create(['item'=>"$item",'status'=>'未完成','update_user'=>'admin']);
-        return $store;
+        // return $store;
+        return response()->json(['message' =>'create successfully' , 'content' =>$store ], 201);
     }
 
     /**
@@ -41,7 +46,11 @@ class PostController extends Controller
     public function show($id)
     {
         $show = T1::find($id);
-        return $show;
+        if (!$show) {
+            return response()->json(['message' =>'bad request' , 'reason' => 'item search not found' ], 400);
+        }
+        // return $show;
+        return response($show, 200);
     }
 
     /**
@@ -53,9 +62,17 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $item = $request->input('item');
-        $update = T1::find($id)->update(['item'=>"$item",'update_user'=>'admin']);
-        return 'update successfully';
+        $item = $request->item;
+        if (!$item) {
+            return response()->json(['message' =>'bad request' , 'reason' => 'item can not null' ], 400);
+        }
+        $update = T1::find($id);
+        if (!$update) {
+            return response()->json(['message' =>'bad request' , 'reason' => 'item search not found' ], 400);
+        }
+        $update->update(['item'=>"$item",'update_user'=>'admin']);
+        return response()->json(['message' =>'update successfully' , 'content' =>$update ], 201);
+        // return 'update successfully';
     }
 
     /**
@@ -66,7 +83,12 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        T1::find($id)->delete();
-        return 'delete successfully';
+        $delete = T1::find($id);
+        if (!$delete) {
+            return response()->json(['message' =>'bad request' , 'reason' => 'item search not found' ], 400);
+        }
+        $delete->delete();
+        return response()->json(['message' =>'delete successfully'], 201);
+        // return 'delete successfully';
     }
 }

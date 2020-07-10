@@ -18,9 +18,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 // Route::get('/todolist', 'PostController@index');
-Route::middleware('tokenAuth')->apiResource('todolist', 'api\PostController');
-Route::post('/GetToken', 'GetToken@login');
-Route::post('/registerUser', 'GetToken@register');
+Route::middleware('tokenAuth')->apiResource('task', 'api\PostController');
+Route::put('/Token', 'api\GetToken@login');
+Route::post('/register', 'api\GetToken@register');
 // Route::get('/LoginPage', function () {
 //     return view('LoginPage');
 // });

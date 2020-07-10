@@ -26,22 +26,26 @@ class TokenMiddlewar
         // return $response;
         //$token = $request->input('_token');
         // $cookie = $request->cookie('userToken');
-        $token = $request->input('userToken');
+        // $token = $request->input('userToken');
+        $token = $request->header('userToken');
+        if (!$token) {
+            return response('token is null', 400);
+        }
         // dd($token);
         // $user = Auth::user()->name;
         // $data = Admin::select('remember_token')->get();
-        $data = Admin::where('remember_token', "=", $token)->get();
-        // dd($data);
-        foreach ($data as  $value) {
-            if (isset($value->remember_token)) {
-                // dd('hello');
-                return $next($request);
-            } else {
-                // return 'token false';
-                // return redirect('/todolist');
-                return response('token false', 403);
-            }
+        $data = Admin::where('remember_token', $token)->first();
+        // dd($data->remember_token);
+        // foreach ($data as  $value) {
+        if (isset($data->remember_token)) {
+            // dd('hello');
+            return $next($request);
+        } else {
+            // return 'token false';
+            // return redirect('/todolist');
+            return response('token false', 403);
         }
+        // }
         // foreach ($data as $value) {
         //     // echo "$value";
         //     if ($value->remember_token == $cookie) {
