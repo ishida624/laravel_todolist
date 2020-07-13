@@ -14,16 +14,25 @@ class GetToken extends Controller
         $username = $register->username;
         $password = $register->passwd;
         $checkpassword = $register->checkpasswd;
+        //dd($password, $checkpassword, gettype($checkpassword));
+        // dd($checkpassword === "000");
+        // if ($checkpassword=== $checkpassword) {
+        //     return response()->json(['password'=>$password,'check'=>$checkpassword]);
+        // } else {
+        //     dd('Hello');
+        // }
+
+        // dd($checkpassword);
         // $admin = Admin::select('admin')->get();
         $admin = Admin::where('admin', $username)->first();
         // dd($admin);
         // foreach ($admin as $value) {
         if (isset($admin)) {
             // return response('帳號已存在', 400);
-            return response()->json(['message' =>'bad request' , 'reason'=>'此帳號已存在'], 400);
+            return response()->json(['message' =>'bad request' , 'reason'=>'This account already exists'], 400);
         }
         // if ($sameUsername == 0) {
-        if ($checkpassword == $password) {
+        if ($checkpassword === $password) {
             if (preg_match("/[0-9a-zA-Z]{8}/", $password)) {
                 $hash = password_hash($password, PASSWORD_DEFAULT);
                 $admin = Admin::create(['admin'=>$username,'password'=>$hash,'remember_token' => 'new user']);
@@ -33,11 +42,11 @@ class GetToken extends Controller
                 return response()->json(['message' =>'Register successflly'], 201);
             } else {
                 // return response('密碼必須八位元以上', 400);
-                return response()->json(['message' =>'bad request' , 'reason'=>'密碼必須八位元以上'], 400);
+                return response()->json(['message' =>'bad request' , 'reason'=>'Password must be more than eight digits'], 400);
             }
         } else {
             // return response('密碼錯誤', 400);
-            return response()->json(['message' =>'bad request' , 'reason'=>'密碼錯誤'], 400);
+            return response()->json(['message' =>'bad request' , 'reason'=>'Password check false'], 400);
         }
         // }
     }
@@ -46,10 +55,13 @@ class GetToken extends Controller
         $password = $login->passwd;
         $username = $login->username;
         // $admin = Admin::select('admin', 'password')->get();
-        $dbPassword = Admin::where('admin', $username)->first()->password;
+        $dbUser = Admin::where('admin', $username)->first();
         // dd($checkUser);
-        if (!$dbPassword) {
-            return response('login false', 400);
+        if (!$dbUser) {
+            // return response('login false', 400);
+            return response()->json(['message' =>'bad request' , 'reason'=>'username false'], 400);
+        } else {
+            $dbPassword = $dbUser->password;
         }
         // foreach ($admin as $value) {
         // if ($value['admin'] == $username) {
@@ -71,9 +83,11 @@ class GetToken extends Controller
             Admin::where('admin', $username)->update(['remember_token' => $token]);
             // return redirect('todolist')->withcookie('userToken', $token)->with('success', 'Login successfully');
             // return redirect('todolist')->with('success', 'Login successfully')->header('userToken', $token);
-            return response('login successfully', 201)->header('userToken', $token);
+            // return response('login successfully', 201)->header('userToken', $token);
+            return response()->json(['message' =>'login successfully'], 201)->header('userToken', $token);
         } else {
-            return response('login false', 400);
+            // return response('login false', 400);
+            return response()->json(['message' =>'bad request' , 'reason'=>'password false'], 400);
         }
         // } else {
         //     $UsernameErr = 1;
