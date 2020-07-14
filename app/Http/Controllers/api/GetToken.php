@@ -14,16 +14,6 @@ class GetToken extends Controller
         $username = $register->username;
         $password = $register->passwd;
         $checkpassword = $register->checkpasswd;
-        //dd($password, $checkpassword, gettype($checkpassword));
-        // dd($checkpassword === "000");
-        // if ($checkpassword=== $checkpassword) {
-        //     return response()->json(['password'=>$password,'check'=>$checkpassword]);
-        // } else {
-        //     dd('Hello');
-        // }
-
-        // dd($checkpassword);
-        // $admin = Admin::select('admin')->get();
         $admin = Admin::where('admin', $username)->first();
         // dd($admin);
         // foreach ($admin as $value) {

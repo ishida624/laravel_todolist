@@ -16,6 +16,16 @@
 		<input type="submit" value="確定修改" >
 		<input type="reset">
 		</form>
+
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
     </body>
     </html>
 @endsection

@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-// use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use App\T1;
 use Illuminate\Support\Str;
+use App\Http\Requests\TodosRequest;
 
 class Todocontroller extends Controller
 {
@@ -21,7 +22,7 @@ class Todocontroller extends Controller
         return  view('todo_index', ['data' =>$data]);
     }
 
-    public function update(Request $update)
+    public function update(TodosRequest $update)
     {
         // $userToken = $update->cookie('userToken');
         // $user = Admin::where('remember_token', "$userToken")->first('admin')->admin;
@@ -41,12 +42,27 @@ class Todocontroller extends Controller
         return redirect('todolist');
         // return $delete;
     }
-    public function create(Request $create)
+    public function create(TodosRequest $create)
     {
         // $userToken = $create->cookie('userToken');
         // $user = Admin::where('remember_token', "$userToken")->first('admin')->admin;
         $user = Auth::user()->name;
         $item = $create->input('item');
+        // $item = $create->validate(['item' => 'required']) ;
+        // $rules=[
+        //             'item' => 'required|max:255',
+        //         ];
+        // $messages = [
+        //     'item.required' => 'item can not null.' ,
+        //     'item.max' => 'item can not over 255 characters'
+        // ];
+        // $validator = Validator::make($create->all(), $rules, $messages);
+        // if ($validator->fails()) {
+        //     // dd($validator);
+        //     return redirect('todolist')
+        //                         ->withErrors($validator)
+        //                         ->withInput();
+        // }
         T1::create(['item'=>"$item",'status'=>'未完成','update_user'=>'admin','update_user'=>$user]);
         return redirect('todolist');
     }

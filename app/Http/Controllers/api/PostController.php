@@ -4,6 +4,8 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\TodosRequest;
 use App\T1;
 
 class PostController extends Controller
@@ -26,13 +28,26 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TodosRequest $request)
     {
         $item = $request->item;
-        if (!$item) {
-            return response()->json(['message' =>'bad request' , 'reason' => 'item can not null' ], 400);
-        }
-        $store = T1::create(['item'=>"$item",'status'=>'未完成','update_user'=>'admin']);
+        // $validate = $request->validate(['item' => 'required']) ;
+        // if (!$item) {
+        //     return response()->json(['message' =>'bad request' , 'reason' => 'item can not null' ], 400);
+        // }
+        // $rules=[
+        //             'item' => 'required|max:255',
+        //         ];
+        // $messages = [
+        //     'item.required' => 'item can not null.' ,
+        //     'item.max' => 'item can not over 255 characters'
+        // ];
+        // $validator = Validator::make($request->all(), $rules, $messages);
+        // if ($validator->fails()) {
+        //     return response()->json(['message'=>$validator], 400);
+        // }
+
+        $store = T1::create(['item'=>$item,'status'=>'未完成','update_user'=>'admin']);
         // return $store;
         return response()->json(['message' =>'create successfully' , 'content' =>$store ], 201);
     }
@@ -60,12 +75,12 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(TodosRequest $request, $id)
     {
         $item = $request->item;
-        if (!$item) {
-            return response()->json(['message' =>'bad request' , 'reason' => 'item can not null' ], 400);
-        }
+        // if (!$item) {
+        //     return response()->json(['message' =>'bad request' , 'reason' => 'item can not null' ], 400);
+        // }
         $update = T1::find($id);
         if (!$update) {
             return response()->json(['message' =>'bad request' , 'reason' => 'item search not found' ], 400);

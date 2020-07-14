@@ -71,4 +71,15 @@ if (isset($_GET['update']) == true && isset($_GET['radio']) == true) {
     }
 }
 ?>
+
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
 @endsection
