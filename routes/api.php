@@ -18,9 +18,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 // Route::get('/todolist', 'PostController@index');
-Route::middleware('tokenAuth')->apiResource('task', 'api\PostController');
-Route::put('/Token', 'api\GetToken@login');
-Route::post('/register', 'api\GetToken@register');
+// Route::middleware('LogInfo')->apiResource('task', 'api\PostController');
+Route::middleware('LogsInfo', 'tokenAuth')->apiResource('task', 'api\PostController');
+Route::middleware('LogsInfo')->put('/Token', 'api\GetToken@login');
+Route::middleware('LogsInfo')->post('/register', 'api\GetToken@register');
 // Route::get('/LoginPage', function () {
 //     return view('LoginPage');
 // });

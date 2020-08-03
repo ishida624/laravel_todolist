@@ -40,6 +40,11 @@ class TodosRequest extends FormRequest
     }
     protected function failedValidation(Validator $validator)
     {
-        throw new HttpResponseException(response()->json($validator->errors(), 400));
+        $message = $validator->errors()->getMessages();
+        throw new HttpResponseException(response()->json(['message'=>'bad request','reason'=>$message['item']['0']], 400));
     }
+    // public function getValidatorInstance()
+    // {
+    //     return parent::getValidatorInstance();
+    // }
 }

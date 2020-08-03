@@ -85,8 +85,13 @@ class PostController extends Controller
         if (!$update) {
             return response()->json(['message' =>'bad request' , 'reason' => 'item search not found' ], 400);
         }
+        $validator = $request->getValidatorInstance();
+        // if ($validator->fails()) {
+        //     $errorMessage = $validator->getMessageBag()->getMessages();
+        //     return response()->json(['message' =>'bad request' , 'error' =>$errorMessage], 400);
+        // }
         $update->update(['item'=>"$item",'update_user'=>'admin']);
-        return response()->json(['message' =>'update successfully' , 'content' =>$update ], 201);
+        return response()->json(['message' =>'update successfully' , 'content' =>$update ], 200);
         // return 'update successfully';
     }
 
@@ -103,7 +108,7 @@ class PostController extends Controller
             return response()->json(['message' =>'bad request' , 'reason' => 'item search not found' ], 400);
         }
         $delete->delete();
-        return response()->json(['message' =>'delete successfully'], 201);
+        return response()->json(['message' =>'delete successfully'], 200);
         // return 'delete successfully';
     }
 }
