@@ -14,7 +14,7 @@ class T1 extends Migration
     public function up()
     {
         Schema::create('t1', function (Blueprint $table) {
-            $table->integer('t1', 16);
+            $table->integer('no', 16);
             $table->char('item', 255);
             $table->char('status', 8);
             $table->timestamp('update_time');
