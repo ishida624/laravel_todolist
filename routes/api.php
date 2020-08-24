@@ -20,7 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 // Route::get('/todolist', 'PostController@index');
 // Route::middleware('LogInfo')->apiResource('task', 'api\PostController');
 Route::middleware('LogsInfo', 'tokenAuth')->apiResource('task', 'api\PostController');
-Route::middleware('LogsInfo')->put('/Token', 'api\GetToken@login');
+Route::middleware('LogsInfo')->post('/userToken', 'api\GetToken@login');
 Route::middleware('LogsInfo')->post('/register', 'api\GetToken@register');
 // Route::get('/LoginPage', function () {
 //     return view('LoginPage');
