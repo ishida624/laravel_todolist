@@ -31,24 +31,8 @@ class PostController extends Controller
     public function store(TodosRequest $request)
     {
         $item = $request->item;
-        // $validate = $request->validate(['item' => 'required']) ;
-        // if (!$item) {
-        //     return response()->json(['message' =>'bad request' , 'reason' => 'item can not null' ], 400);
-        // }
-        // $rules=[
-        //             'item' => 'required|max:255',
-        //         ];
-        // $messages = [
-        //     'item.required' => 'item can not null.' ,
-        //     'item.max' => 'item can not over 255 characters'
-        // ];
-        // $validator = Validator::make($request->all(), $rules, $messages);
-        // if ($validator->fails()) {
-        //     return response()->json(['message'=>$validator], 400);
-        // }
-
-        $store = T1::create(['item' => $item, 'status' => '未完成', 'update_user' => 'admin']);
-        // return $store;
+        $user = $request->UserData->admin;
+        $store = T1::create(['item' => $item, 'status' => '未完成', 'update_user' => $user]);
         return response()->json(['message' => 'create successfully', 'content' => $store], 201);
     }
 
@@ -78,6 +62,7 @@ class PostController extends Controller
     public function update(TodosRequest $request, $id)
     {
         $item = $request->item;
+        $user = $request->UserData->admin;
         // if (!$item) {
         //     return response()->json(['message' =>'bad request' , 'reason' => 'item can not null' ], 400);
         // }
@@ -90,7 +75,7 @@ class PostController extends Controller
         //     $errorMessage = $validator->getMessageBag()->getMessages();
         //     return response()->json(['message' =>'bad request' , 'error' =>$errorMessage], 400);
         // }
-        $update->update(['item' => "$item", 'update_user' => 'admin']);
+        $update->update(['item' => "$item", 'update_user' => $user]);
         return response()->json(['message' => 'update successfully', 'content' => $update], 200);
         // return 'update successfully';
     }

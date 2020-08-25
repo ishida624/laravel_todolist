@@ -20,6 +20,7 @@ class TokenMiddlewar
     {
         $token = $request->header('userToken');
         $data = Admin::where('remember_token', $token)->first();
+        $request->merge(['UserData' => $data]);
         if (isset($data->remember_token)) {
             $tokenTime =  strtotime('+1 day', strtotime($data->login_time));
             if ($tokenTime < time()) {
