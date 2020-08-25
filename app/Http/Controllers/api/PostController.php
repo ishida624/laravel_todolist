@@ -47,9 +47,9 @@ class PostController extends Controller
         //     return response()->json(['message'=>$validator], 400);
         // }
 
-        $store = T1::create(['item'=>$item,'status'=>'未完成','update_user'=>'admin']);
+        $store = T1::create(['item' => $item, 'status' => '未完成', 'update_user' => 'admin']);
         // return $store;
-        return response()->json(['message' =>'create successfully' , 'content' =>$store ], 201);
+        return response()->json(['message' => 'create successfully', 'content' => $store], 201);
     }
 
     /**
@@ -62,7 +62,7 @@ class PostController extends Controller
     {
         $show = T1::find($id);
         if (!$show) {
-            return response()->json(['message' =>'bad request' , 'reason' => 'item search not found' ], 400);
+            return response()->json(['message' => 'bad request', 'reason' => 'item search not found'], 400);
         }
         // return $show;
         return response($show, 200);
@@ -83,15 +83,15 @@ class PostController extends Controller
         // }
         $update = T1::find($id);
         if (!$update) {
-            return response()->json(['message' =>'bad request' , 'reason' => 'item search not found' ], 400);
+            return response()->json(['message' => 'bad request', 'reason' => 'item search not found'], 400);
         }
-        $validator = $request->getValidatorInstance();
+        // $validator = $request->getValidatorInstance();
         // if ($validator->fails()) {
         //     $errorMessage = $validator->getMessageBag()->getMessages();
         //     return response()->json(['message' =>'bad request' , 'error' =>$errorMessage], 400);
         // }
-        $update->update(['item'=>"$item",'update_user'=>'admin']);
-        return response()->json(['message' =>'update successfully' , 'content' =>$update ], 200);
+        $update->update(['item' => "$item", 'update_user' => 'admin']);
+        return response()->json(['message' => 'update successfully', 'content' => $update], 200);
         // return 'update successfully';
     }
 
@@ -105,10 +105,10 @@ class PostController extends Controller
     {
         $delete = T1::find($id);
         if (!$delete) {
-            return response()->json(['message' =>'bad request' , 'reason' => 'item search not found' ], 400);
+            return response()->json(['message' => 'bad request', 'reason' => 'item search not found'], 400);
         }
         $delete->delete();
-        return response()->json(['message' =>'delete successfully'], 200);
+        return response()->json(['message' => 'delete successfully'], 200);
         // return 'delete successfully';
     }
 }

@@ -8,7 +8,7 @@ class T1 extends Model
 {
     protected $table = 't1';
     public $incrementing = 'false';
-    public $primaryKey = 'no';
+    public $primaryKey = 'id';
     public $timestamps = false;
-    protected $fillable =['item','status','update_user'];
+    protected $fillable = ['item', 'status', 'update_user'];
 }
