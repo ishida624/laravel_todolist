@@ -19,7 +19,7 @@ class Todocontroller extends Controller
     public function readTable()
     {
         $data = T1::all();
-        return  view('todo_index', ['data' =>$data]);
+        return  view('todo_index', ['data' => $data]);
     }
 
     public function update(TodosRequest $update)
@@ -29,7 +29,7 @@ class Todocontroller extends Controller
         $user = Auth::user()->name;
         $id = $update->input('no');
         $item = $update->input('item');
-        T1::find($id)->update(['item'=>"$item",'update_user'=>'admin','update_user'=>$user]);
+        T1::find($id)->update(['item' => "$item", 'update_user' => 'admin', 'update_user' => $user]);
         //return redirect()->back()->with('message', 'please login');
         //return 'please login';
         return redirect('todolist');
@@ -63,7 +63,7 @@ class Todocontroller extends Controller
         //                         ->withErrors($validator)
         //                         ->withInput();
         // }
-        T1::create(['item'=>"$item",'status'=>'未完成','update_user'=>'admin','update_user'=>$user]);
+        T1::create(['item' => "$item", 'status' => '未完成', 'update_user' => 'admin', 'update_user' => $user]);
         return redirect('todolist');
     }
     public function complete(Request $complete)
@@ -77,9 +77,9 @@ class Todocontroller extends Controller
         $data = T1::find($id);
         $status = $data->status;
         if ($status == '未完成') {
-            $data->update(['status'=>'已完成','update_user'=>$user]);
+            $data->update(['status' => '已完成', 'update_user' => $user]);
         } else {
-            $data->update(['status'=>'未完成','update_user'=>$user]);
+            $data->update(['status' => '未完成', 'update_user' => $user]);
         }
         return redirect('todolist');
 

@@ -29,7 +29,9 @@ class GetToken extends Controller
         ];
         $validator = Validator::make($register->all(), $rules, $messages);
         if ($validator->fails()) {
-            return response()->json(['message' => 'bad request', 'reason' => $validator->errors()], 400);
+            $messages = array_values($validator->errors()->messages());
+            dd($messages);
+            return response()->json(['message' => 'bad request', 'reason' => $messages[0]], 400);
         }
         $admin = Admin::where('admin', $username)->first();
         // dd($admin);
