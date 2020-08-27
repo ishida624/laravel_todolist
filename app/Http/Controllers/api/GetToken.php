@@ -18,20 +18,24 @@ class GetToken extends Controller
         $rules = [
             'username' => 'required|max:16',
             'password' => 'required|regex:/[0-9a-zA-Z]{8}/'
-            // 'password' => 'required|password:api'
         ];
         $messages = [
-            'username.required' => 'username can not null.',
-            'username.max' => 'username can not over 16 characters',
-            'password.required' => 'password should over 8 characters and only 0-9,a-z,A-Z',
-            'password.regex' => 'password should over 8 characters and only 0-9,a-z,A-Z ',
-            // 'password.password' => 'password should over 8 characters and only 0-9,a-z,A-Z ' ,
+            'username.required' => 'username can not null. ',
+            'username.max' => 'username can not over 16 characters. ',
+            'password' => 'password should over 8 characters and only 0-9,a-z,A-Z. ',
         ];
         $validator = Validator::make($register->all(), $rules, $messages);
         if ($validator->fails()) {
-            $messages = array_values($validator->errors()->messages());
-            dd($messages);
-            return response()->json(['message' => 'bad request', 'reason' => $messages[0]], 400);
+            $error = $validator->errors()->messages();
+            $reason1 = "";
+            $reason2 = "";
+            if (isset($error['username'][0])) {
+                $reason1 = $error['username'][0];
+            }
+            if (isset($error['password'][0])) {
+                $reason2 =  $error['password'][0];
+            }
+            return response()->json(['message' => 'bad request', 'reason' => $reason1 . $reason2], 400);
         }
         $admin = Admin::where('admin', $username)->first();
         // dd($admin);
