@@ -5,12 +5,25 @@
 <head>
     <meta http-http-equiv="Connect-type" content="text/html" ; charset="utf-8" />
     <title>laravel todolist</title>
+    <style>
+        .mid {
+            margin: 0 auto;
+            max-width: 1080px;
+        }
+
+        .form {
+            text-align: center;
+        }
+    </style>
 </head>
 
 <body>
     <!-- <a href=/LoginPage>登入</a>
     <a href=/RegisterPage>註冊</a> -->
-    <form action="{{ url("/create") }}" method="post">
+    <!-- <div class="mid"> -->
+    <!-- <p>hello world</p> -->
+
+    <form class="form " action="{{ url("/create") }}" method="post">
         {{ csrf_field() }}
         <input type="text" name="item" placeholder="輸入項目">
         <br>
@@ -18,10 +31,10 @@
         <input type="reset">
         <br>
     </form>
-
-    <form action=" " method="get">
+    <br>
+    <form class="form mid" action=" " method="get">
         {{ csrf_field() }}
-        <table width="700" border="1">
+        <table class="mid" width="700" border="1">
             @foreach ($data as $key => $value)
             <tr>
                 <td><input type='radio' name='radio' value="{{$value->id}}"></td>
@@ -54,6 +67,7 @@
         @method('PUT')
         <input type="hidden" name="id" value="{{$_GET['radio']}}">
     </form>
+    <!-- </div> -->
     <script>
         form2.submit();
     </script>

@@ -22,11 +22,13 @@ class GetToken extends Controller
         $messages = [
             'username.required' => 'username can not null. ',
             'username.max' => 'username can not over 16 characters. ',
-            'password' => 'password should over 8 characters and only 0-9,a-z,A-Z. ',
+            'password.regex' => 'password should over 8 characters and only 0-9,a-z,A-Z. ',
+            'password.required' => 'password should over 8 characters and only 0-9,a-z,A-Z. ',
         ];
         $validator = Validator::make($register->all(), $rules, $messages);
         if ($validator->fails()) {
-            $error = $validator->errors()->messages();
+            $error = $validator->errors()->getMessages();
+            // dd($error);
             $reason1 = "";
             $reason2 = "";
             if (isset($error['username'][0])) {
